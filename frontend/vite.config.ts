@@ -1,11 +1,19 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite' // <-- Add this import
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite'; // ✅ Official Tailwind Vite plugin
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
-    tailwindcss(), // <-- Make sure to call it as a function
+    tailwindcss(), // ✅ Correct usage
   ],
-})
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000', // Your backend
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '/api'),
+      }
+    }
+  }
+});
