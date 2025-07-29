@@ -5,7 +5,7 @@ import DashBoardWrapper from "../components/DashBoardWrapper.tsx";
 export default function Dashboard() {
     return (
         <DashBoardWrapper>
-            <h1 className="text-2xl font-bold text-center mb-4">DashBoard Page</h1>
+            <h1 className="text-4xl font-extrabold text-left mb-4 text-white">DashBoard</h1>
 
             <div className="flex flex-col md:flex-row rounded-xl shadow-lg overflow-hidden">
                 {/* Sidebar */}
@@ -55,7 +55,6 @@ export default function Dashboard() {
 
                 {/* Workspace */}
                 <div className="md:w-3/4 p-6 text-white">
-                    <h2 className="text-xl font-semibold text-center mb-4">WorkSpace</h2>
                     <div className="bg-white/10 backdrop-blur-sm border border-gray-300 rounded-xl p-6 min-h-[400px]">
                         <Outlet />
                     </div>
