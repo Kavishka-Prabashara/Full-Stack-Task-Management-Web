@@ -20,7 +20,7 @@ export default function LoginPage() {
     useEffect(() => {
         if (user) {
             alert('Login successful!');
-            navigate('/dashboard');
+            navigate('/dashboard/tasks');
         }
     }, [user, navigate]);
 
