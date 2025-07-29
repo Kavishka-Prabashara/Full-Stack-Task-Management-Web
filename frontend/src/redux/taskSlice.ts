@@ -5,8 +5,10 @@ import axios from 'axios';
 export interface Task {
     id: number;
     title: string;
-    description?: string; // Add description to the Task interface
+    description?: string;
     completed: boolean;
+    dueDate?: string;
+    dueTime?: string;
 }
 
 interface TaskState {
@@ -21,48 +23,47 @@ const initialState: TaskState = {
     error: null
 };
 
-// Add inside taskSlice.ts
 export const addTask = createAsyncThunk<
     Task,
-    { title: string; description?: string },
+    { title: string; description?: string; dueDate?: string; dueTime?: string }, // අලුත් properties එකතු කරන්න
     { rejectValue: string }
 >(
     'tasks/addTask',
-    async ({ title, description }, thunkAPI) => {
+    async ({ title, description, dueDate, dueTime }, thunkAPI) => {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.post<Task>(
                 '/api/tasks',
-                { title, description },
+                { title, description, dueDate, dueTime }, // ✅ Send all properties
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             return response.data;
-        } catch (error: any) { // Type the error
+        } catch (error: any) {
             console.error('Add task error:', error);
             return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to add task');
         }
     }
 );
 
-export const updateTask = createAsyncThunk<Task, Task, { rejectValue: string }>( // Add rejectValue type
+export const updateTask = createAsyncThunk<Task, Task, { rejectValue: string }>(
     'tasks/updateTask',
     async (task, thunkAPI) => {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.put<Task>(
                 `/api/tasks/${task.id}`,
-                task,
+                task, // task object එකේ dueDate සහ dueTime අඩංගු විය යුතුයි
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             return response.data;
-        } catch (error: any) { // Type the error
+        } catch (error: any) {
             console.error('Update task error:', error);
             return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to update task');
         }
     }
 );
 
-export const deleteTask = createAsyncThunk<string, number, { rejectValue: string }>( // Change id type to number, add rejectValue type
+export const deleteTask = createAsyncThunk<string, number, { rejectValue: string }>(
     'tasks/deleteTask',
     async (id, thunkAPI) => {
         try {
@@ -70,8 +71,8 @@ export const deleteTask = createAsyncThunk<string, number, { rejectValue: string
             await axios.delete(`/api/tasks/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            return String(id); // Return id as a string as your reducer expects string
-        } catch (error: any) { // Type the error
+            return String(id);
+        } catch (error: any) {
             console.error('Delete task error:', error);
             return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to delete task');
         }
@@ -87,7 +88,7 @@ export const fetchTasks = createAsyncThunk<Task[], void, { rejectValue: string }
                 headers: { Authorization: `Bearer ${token}` }
             });
             return response.data;
-        } catch (error: any) { // Type the error
+        } catch (error: any) {
             console.error('Fetch error:', error);
             return thunkAPI.rejectWithValue(error.response?.data?.message || 'Failed to fetch tasks');
         }
@@ -147,7 +148,7 @@ const taskSlice = createSlice({
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(deleteTask.fulfilled, (state, action: PayloadAction<string>) => { // action.payload is the id
+            .addCase(deleteTask.fulfilled, (state, action: PayloadAction<string>) => {
                 state.loading = false;
                 state.tasks = state.tasks.filter(task => String(task.id) !== action.payload);
             })
