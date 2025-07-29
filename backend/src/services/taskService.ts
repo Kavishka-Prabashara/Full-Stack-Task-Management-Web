@@ -5,15 +5,15 @@ export const createTask = async (
     userId: number,
     title: string,
     description?: string,
-    dueDate?: string, // Add dueDate
-    dueTime?: string    // Add dueTime
+    dueDate?: string,
+    dueTime?: string
 ) => {
     return prisma.task.create({
         data: {
             title,
             description,
             userId,
-            dueDate: dueDate ? new Date(dueDate) : undefined, // Convert string to Date object for Prisma
+            dueDate: dueDate ? new Date(dueDate) : undefined,
             dueTime,
         },
     });
@@ -25,21 +25,22 @@ export const getUserTasks = async (userId: number) => {
     });
 };
 
+// FIX: Reorder parameters - all required first, then all optional
 export const updateTask = async (
     taskId: number,
     title: string,
-    description?: string, // Add description for update
-    completed: boolean,
-    dueDate?: string,    // Add dueDate
-    dueTime?: string     // Add dueTime
+    completed: boolean,     // REQUIRED - moved up
+    description?: string,   // OPTIONAL - moved down
+    dueDate?: string,
+    dueTime?: string
 ) => {
     return prisma.task.update({
         where: { id: taskId },
         data: {
             title,
-            description, // Update description as well
+            description,
             completed,
-            dueDate: dueDate ? new Date(dueDate) : undefined, // Convert string to Date object
+            dueDate: dueDate ? new Date(dueDate) : undefined,
             dueTime,
         },
     });

@@ -42,14 +42,14 @@ export const list = async (req: AuthRequest, res: Response) => {
 export const update = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const { title, description, completed, dueDate, dueTime } = req.body; // Destructure all fields
+        const { title, description, completed, dueDate, dueTime } = req.body;
         const task = await taskService.updateTask(
             Number(id),
             title,
-            description, // Pass description
-            completed,
-            dueDate,     // Pass dueDate
-            dueTime      // Pass dueTime
+            completed,     // Reordered to match taskService
+            description,   // Reordered to match taskService
+            dueDate,
+            dueTime
         );
         res.json(task);
     } catch (err: unknown) {
