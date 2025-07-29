@@ -5,16 +5,21 @@ interface Props {
     title?: string;
 }
 
-export default function DashBoardWrapper({ children, title }: Props) {
+export default function DashBoardWrapper({ children }: Props) {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-200 flex items-center justify-center p-4">
-            <div className="w-full max-w-4xl bg-white shadow-xl rounded-2xl p-6 sm:p-10">
-                {title && (
-                    <h1 className="text-3xl font-bold text-center text-blue-800 mb-6">
-                        {title}
-                    </h1>
-                )}
-                {children}
+        <div
+            className="min-h-screen bg-cover bg-center relative"
+            style={{
+                backgroundImage:
+                    "url('https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8anVuZ2xlJTIwZm9yZXN0fGVufDB8fDB8fHww')",
+            }}
+        >
+            {/* overlay */}
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+
+            {/* main content */}
+            <div className="relative z-10 flex items-start justify-center p-6">
+                <div className="w-full">{children}</div>
             </div>
         </div>
     );
