@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/hook';
 import { fetchTasks, addTask } from '../redux/taskSlice';
-import DashBoardWrapper from '../components/DashBoardWrapper';
 
 export default function TaskPage() {
     const dispatch = useAppDispatch();
@@ -20,7 +19,7 @@ export default function TaskPage() {
     };
 
     return (
-        <DashBoardWrapper>
+        <div>
             <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">📋 My Tasks</h2>
 
             {/* Input field */}
@@ -53,6 +52,6 @@ export default function TaskPage() {
                     </div>
                 ))}
             </div>
-        </DashBoardWrapper>
+        </div>
     );
 }
