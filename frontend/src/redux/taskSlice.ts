@@ -19,6 +19,25 @@ const initialState: TaskState = {
     loading: false,
     error: null
 };
+// Add inside taskSlice.ts
+export const addTask = createAsyncThunk<Task, string, { rejectValue: string }>(
+    'tasks/addTask',
+    async (title, thunkAPI) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.post<Task>(
+                '/api/tasks',
+                { title },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            return response.data;
+        } catch (error) {
+            console.error('Add task error:', error);
+            return thunkAPI.rejectWithValue('Failed to add task');
+        }
+    }
+);
+
 
 export const fetchTasks = createAsyncThunk<Task[], void, { rejectValue: string }>(
     'tasks/fetchTasks',
