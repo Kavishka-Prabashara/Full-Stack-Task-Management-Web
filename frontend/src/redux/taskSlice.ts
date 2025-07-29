@@ -20,14 +20,18 @@ const initialState: TaskState = {
     error: null
 };
 // Add inside taskSlice.ts
-export const addTask = createAsyncThunk<Task, string, { rejectValue: string }>(
+export const addTask = createAsyncThunk<
+    Task,
+    { title: string; description?: string }, // Accept object instead of just title
+    { rejectValue: string }
+>(
     'tasks/addTask',
-    async (title, thunkAPI) => {
+    async ({ title, description }, thunkAPI) => {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.post<Task>(
                 '/api/tasks',
-                { title },
+                { title, description }, // ✅ Send both title & description
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             return response.data;
@@ -37,6 +41,7 @@ export const addTask = createAsyncThunk<Task, string, { rejectValue: string }>(
         }
     }
 );
+
 
 
 export const fetchTasks = createAsyncThunk<Task[], void, { rejectValue: string }>(

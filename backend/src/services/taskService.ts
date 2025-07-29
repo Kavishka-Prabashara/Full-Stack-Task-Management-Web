@@ -1,10 +1,11 @@
 import { prisma } from '../config/prisma';
 
-export const createTask = async (userId: number, title: string) => {
+export const createTask = async (userId: number, title: string, description?: string) => {
     return prisma.task.create({
-        data: { title, userId },
+        data: { title, description, userId },
     });
 };
+
 
 export const getUserTasks = async (userId: number) => {
     return prisma.task.findMany({

@@ -5,7 +5,11 @@ import { AuthRequest } from '../types';
 // Create Task
 export const create = async (req: AuthRequest, res: Response) => {
     try {
-        const task = await taskService.createTask(req.user!.id, req.body.title);
+        const task = await taskService.createTask(
+            req.user!.id,
+            req.body.title,
+            req.body.description // ✅ Support description
+        );
         res.status(201).json(task);
     } catch (err: unknown) {
         if (err instanceof Error) {
@@ -15,6 +19,7 @@ export const create = async (req: AuthRequest, res: Response) => {
         }
     }
 };
+
 
 // List Tasks
 export const list = async (req: AuthRequest, res: Response) => {
