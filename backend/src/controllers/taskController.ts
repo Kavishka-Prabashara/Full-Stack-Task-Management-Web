@@ -1,3 +1,4 @@
+// src/controllers/taskController.ts
 import { Request, Response } from 'express';
 import * as taskService from '../services/taskService';
 import { AuthRequest } from '../types';
@@ -5,10 +6,13 @@ import { AuthRequest } from '../types';
 // Create Task
 export const create = async (req: AuthRequest, res: Response) => {
     try {
+        const { title, description, dueDate, dueTime } = req.body; // Destructure new fields
         const task = await taskService.createTask(
             req.user!.id,
-            req.body.title,
-            req.body.description // ✅ Support description
+            title,
+            description,
+            dueDate, // Pass dueDate
+            dueTime  // Pass dueTime
         );
         res.status(201).json(task);
     } catch (err: unknown) {
@@ -20,8 +24,7 @@ export const create = async (req: AuthRequest, res: Response) => {
     }
 };
 
-
-// List Tasks
+// List Tasks (No change needed here as it simply fetches all existing task data)
 export const list = async (req: AuthRequest, res: Response) => {
     try {
         const tasks = await taskService.getUserTasks(req.user!.id);
@@ -39,8 +42,15 @@ export const list = async (req: AuthRequest, res: Response) => {
 export const update = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const { title, completed } = req.body;
-        const task = await taskService.updateTask(Number(id), title, completed);
+        const { title, description, completed, dueDate, dueTime } = req.body; // Destructure all fields
+        const task = await taskService.updateTask(
+            Number(id),
+            title,
+            description, // Pass description
+            completed,
+            dueDate,     // Pass dueDate
+            dueTime      // Pass dueTime
+        );
         res.json(task);
     } catch (err: unknown) {
         if (err instanceof Error) {
@@ -51,7 +61,7 @@ export const update = async (req: Request, res: Response) => {
     }
 };
 
-// Delete Task
+// Delete Task (No change needed)
 export const remove = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
