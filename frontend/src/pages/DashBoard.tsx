@@ -14,8 +14,11 @@ export default function Dashboard() {
                         <NavLink
                             to="/dashboard/account"
                             className={({ isActive }) =>
-                                `block px-4 py-3 rounded-xl border text-center font-mono font-bold ${
-                                    isActive ? 'bg-blue-500 text-white' : 'bg-white/20 text-white'
+                                `block px-4 py-3 rounded-xl border text-center font-mono font-bold text-2xl transition-all duration-300 ease-in-out
+        ${
+                                    isActive
+                                        ? 'bg-gradient-to-r from-black to-green-600'
+                                        : 'bg-white/20 text-white hover:bg-gradient-to-r hover:from-green-600 hover:to-black hover:text-white'
                                 }`
                             }
                         >
@@ -25,19 +28,25 @@ export default function Dashboard() {
                         <NavLink
                             to="/dashboard/tasks"
                             className={({ isActive }) =>
-                                `block px-4 py-3 rounded-xl border text-center font-mono font-bold ${
-                                    isActive ? 'bg-blue-500 text-white' : 'bg-white/20 text-white'
+                                `block px-4 py-3 rounded-xl border text-center font-mono font-bold text-2xl transition-all duration-300 ease-in-out
+        ${
+                                    isActive
+                                        ? 'bg-gradient-to-r from-black to-green-600'
+                                        : 'bg-white/20 text-white hover:bg-gradient-to-r hover:from-green-600 hover:to-black hover:text-white'
                                 }`
                             }
                         >
-                            Task_BTN
+                            Task
                         </NavLink>
 
                         <NavLink
                             to="/dashboard/calendar"
                             className={({ isActive }) =>
-                                `block px-4 py-3 rounded-xl border text-center font-mono font-bold ${
-                                    isActive ? 'bg-blue-500 text-white' : 'bg-white/20 text-white'
+                                `block px-4 py-3 rounded-xl border text-center font-mono font-bold text-2xl transition-all duration-300 ease-in-out
+        ${
+                                    isActive
+                                        ? 'bg-gradient-to-r from-black to-green-600'
+                                        : 'bg-white/20 text-white hover:bg-gradient-to-r hover:from-green-600 hover:to-black hover:text-white'
                                 }`
                             }
                         >
@@ -45,8 +54,8 @@ export default function Dashboard() {
                         </NavLink>
 
                         <NavLink
-                            to="/logout"
-                            className="block px-4 py-3 rounded-xl border text-center font-mono font-bold bg-red-500 text-white"
+                            to="/"
+                            className="block px-4 py-3 rounded-xl border text-center font-mono font-bold bg-red-500 text-white hover:bg-red-600 transition-colors duration-300"
                         >
                             Logout
                         </NavLink>
