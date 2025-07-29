@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/hook';
 import { fetchTasks, addTask, updateTask, deleteTask } from '../redux/taskSlice';
+import DatePicker from 'react-datepicker'; // DatePicker import කරන්න
+import 'react-datepicker/dist/react-datepicker.css'; // DatePicker styles import කරන්න
 
 export default function TaskPage() {
     const dispatch = useAppDispatch();
@@ -9,7 +11,9 @@ export default function TaskPage() {
     const [taskTitle, setTaskTitle] = useState('');
     const [taskDescription, setTaskDescription] = useState('');
     const [completed, setCompleted] = useState(false);
-    const [selectedTask, setSelectedTask] = useState<any>(null); // Consider defining a proper type for selectedTask
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null); // අලුත් state: දිනය සඳහා
+    const [selectedTime, setSelectedTime] = useState<string>(''); // අලුත් state: වේලාව සඳහා
+    const [selectedTask, setSelectedTask] = useState<any>(null);
 
     useEffect(() => {
         dispatch(fetchTasks());
@@ -20,11 +24,18 @@ export default function TaskPage() {
         setTaskTitle('');
         setTaskDescription('');
         setCompleted(false);
+        setSelectedDate(null); // Reset date
+        setSelectedTime(''); // Reset time
     };
 
     const handleAddTask = () => {
         if (taskTitle.trim() !== '') {
-            dispatch(addTask({ title: taskTitle, description: taskDescription }));
+            dispatch(addTask({
+                title: taskTitle,
+                description: taskDescription,
+                dueDate: selectedDate ? selectedDate.toISOString() : undefined, // දිනය ISO string ලෙස යවන්න
+                dueTime: selectedTime || undefined, // වේලාව යවන්න
+            }));
             resetForm();
         }
     };
@@ -34,6 +45,8 @@ export default function TaskPage() {
         setTaskTitle(task.title);
         setTaskDescription(task.description || '');
         setCompleted(task.completed);
+        setSelectedDate(task.dueDate ? new Date(task.dueDate) : null); // දිනය Date object එකක් ලෙස සකසන්න
+        setSelectedTime(task.dueTime || ''); // වේලාව සකසන්න
     };
 
     const handleUpdate = () => {
@@ -42,7 +55,9 @@ export default function TaskPage() {
                 ...selectedTask,
                 title: taskTitle,
                 description: taskDescription,
-                completed
+                completed,
+                dueDate: selectedDate ? selectedDate.toISOString() : undefined,
+                dueTime: selectedTime || undefined,
             }));
             resetForm();
         }
@@ -50,7 +65,7 @@ export default function TaskPage() {
 
     const handleDelete = () => {
         if (selectedTask) {
-            dispatch(deleteTask(selectedTask.id)); // Ensure selectedTask.id is a number here
+            dispatch(deleteTask(selectedTask.id));
             resetForm();
         }
     };
@@ -74,6 +89,22 @@ export default function TaskPage() {
                     placeholder="Enter task description"
                     className="border border-white rounded-lg px-4 py-2 w-full max-w-md"
                 />
+                {/* Date Picker එකතු කිරීම */}
+                <DatePicker
+                    selected={selectedDate}
+                    onChange={(date: Date | null) => setSelectedDate(date)}
+                    placeholderText="Select due date"
+                    className="border border-white rounded-lg px-4 py-2 w-full max-w-md"
+                    dateFormat="yyyy/MM/dd" // දිනය පෙන්වන ආකෘතිය
+                />
+                {/* Time Picker (HTML input) එකතු කිරීම */}
+                <input
+                    type="time"
+                    value={selectedTime}
+                    onChange={(e) => setSelectedTime(e.target.value)}
+                    className="border border-white rounded-lg px-4 py-2 w-full max-w-md"
+                />
+
                 <label className="text-white flex items-center space-x-2">
                     <input
                         type="checkbox"
@@ -123,6 +154,8 @@ export default function TaskPage() {
                         <th className="px-4 py-2 border-b">ID</th>
                         <th className="px-4 py-2 border-b">Title</th>
                         <th className="px-4 py-2 border-b">Description</th>
+                        <th className="px-4 py-2 border-b">Due Date</th> {/* අලුත් තීරුව */}
+                        <th className="px-4 py-2 border-b">Due Time</th> {/* අලුත් තීරුව */}
                         <th className="px-4 py-2 border-b">Status</th>
                     </tr>
                     </thead>
@@ -139,6 +172,14 @@ export default function TaskPage() {
                             </td>
                             <td className="px-4 py-2 border-b border-white text-white">
                                 {task.description || '-'}
+                            </td>
+                            <td className="px-4 py-2 border-b border-white text-white">
+                                {/* දිනය පෙන්වීම */}
+                                {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '-'}
+                            </td>
+                            <td className="px-4 py-2 border-b border-white text-white">
+                                {/* වේලාව පෙන්වීම */}
+                                {task.dueTime || '-'}
                             </td>
                             <td className="px-4 py-2 border-b border-white">
                                     <span className={`text-xl ${task.completed ? 'text-green-500' : 'text-red-400'}`}>
