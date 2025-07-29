@@ -2,6 +2,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 import React from "react";
 import DashBoardWrapper from "../components/DashBoardWrapper.tsx";
 
+
 export default function Dashboard() {
     return (
         <DashBoardWrapper>
@@ -13,7 +14,7 @@ export default function Dashboard() {
                     <div className="space-y-4">
                         <NavLink
                             to="/dashboard/account"
-                            className={({ isActive }) =>
+                            className={({isActive}) =>
                                 `block px-4 py-3 rounded-xl border text-center font-mono font-bold text-2xl transition-all duration-300 ease-in-out
         ${
                                     isActive
@@ -27,7 +28,7 @@ export default function Dashboard() {
 
                         <NavLink
                             to="/dashboard/tasks"
-                            className={({ isActive }) =>
+                            className={({isActive}) =>
                                 `block px-4 py-3 rounded-xl border text-center font-mono font-bold text-2xl transition-all duration-300 ease-in-out
         ${
                                     isActive
@@ -41,7 +42,7 @@ export default function Dashboard() {
 
                         <NavLink
                             to="/dashboard/calendar"
-                            className={({ isActive }) =>
+                            className={({isActive}) =>
                                 `block px-4 py-3 rounded-xl border text-center font-mono font-bold text-2xl transition-all duration-300 ease-in-out
         ${
                                     isActive
@@ -53,19 +54,13 @@ export default function Dashboard() {
                             Calender
                         </NavLink>
 
-                        <NavLink
-                            to="/"
-                            className="block px-4 py-3 rounded-xl border text-center font-mono font-bold bg-red-500 text-white hover:bg-red-600 transition-colors duration-300"
-                        >
-                            Logout
-                        </NavLink>
                     </div>
                 </div>
 
                 {/* Workspace */}
                 <div className="md:w-3/4 p-6 text-white">
                     <div className="bg-white/10 backdrop-blur-sm border border-gray-300 rounded-xl p-6 min-h-[400px]">
-                        <Outlet />
+                        <Outlet/>
                     </div>
                 </div>
             </div>
