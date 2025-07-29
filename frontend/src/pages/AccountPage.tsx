@@ -6,7 +6,7 @@ export default function AccountPage() {
 
     return (
         <div className="max-w-4xl mx-auto mt-10">
-            <h2 className="text-2xl font-bold text-center text-blue-700 mb-6">Account Page</h2>
+            <h2 className="text-2xl font-bold text-center text-blue-700 mb-6">User Details</h2>
             <div className="flex flex-col md:flex-row">
                 {/* Left Side - Image */}
                 <div className="md:w-1/2 flex flex-col items-center">
