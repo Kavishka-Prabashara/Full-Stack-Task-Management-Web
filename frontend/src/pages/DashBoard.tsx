@@ -7,10 +7,9 @@ export default function Dashboard() {
         <DashBoardWrapper>
             <h1 className="text-2xl font-bold text-center mb-4">DashBoard Page</h1>
 
-            <div className="flex flex-col md:flex-row rounded-xl shadow-lg overflow-hidden bg-white/10 backdrop-blur-md">
+            <div className="flex flex-col md:flex-row rounded-xl shadow-lg overflow-hidden">
                 {/* Sidebar */}
-                <div className="md:w-1/4 bg-white/20 p-4 border-r border-gray-300 text-white">
-                    <h2 className="text-xl font-semibold text-center mb-6">SideBar</h2>
+                <div className="md:w-1/4 p-4 border-r border-gray-300 text-white">
                     <div className="space-y-4">
                         <NavLink
                             to="/dashboard/account"
