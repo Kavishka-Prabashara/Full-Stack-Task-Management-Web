@@ -52,7 +52,7 @@ export default function SignupPage() {
                 Sign Up
             </button>
             <p className="text-sm text-center  mt-4">
-                Back tp Login {' '}
+                Back to Login {' '}
                 <button className="underline" onClick={() => navigate('/')}>
                     Back
                 </button>
