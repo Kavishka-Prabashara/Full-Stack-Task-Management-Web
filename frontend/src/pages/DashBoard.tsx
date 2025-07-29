@@ -22,7 +22,7 @@ export default function Dashboard() {
                                 }`
                             }
                         >
-                            Account_BTN
+                            My Account
                         </NavLink>
 
                         <NavLink
