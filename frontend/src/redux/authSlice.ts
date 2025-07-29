@@ -55,6 +55,22 @@ export const loginUser = createAsyncThunk<
     }
 });
 
+export const fetchCurrentUser = createAsyncThunk<User, void, { rejectValue: string }>(
+    'auth/fetchCurrentUser',
+    async (_, thunkAPI) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.get(`${API_BASE_URL}/api/auth/me`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            return response.data;
+        } catch (error) {
+            const err = error as AxiosError<{ message: string }>;
+            return thunkAPI.rejectWithValue(err.response?.data.message || 'Failed to fetch user');
+        }
+    }
+);
+
 
 const authSlice = createSlice({
     name: 'auth',
