@@ -15,6 +15,8 @@ CREATE TABLE `Task` (
     `title` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NULL,
     `completed` BOOLEAN NOT NULL DEFAULT false,
+    `dueDate` DATETIME(3) NULL,
+    `dueTime` VARCHAR(191) NULL,
     `userId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)

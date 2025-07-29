@@ -23,11 +23,14 @@ model User {
   tasks    Task[]
 }
 
+// prisma/schema.prisma
 model Task {
-  id          Int     @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   title       String
-  description String? // ✅ Optional field for task description
-  completed   Boolean @default(false)
+  description String?
+  completed   Boolean   @default(false)
+  dueDate     DateTime? // New: for date (stores full date-time, you'll just use the date part)
+  dueTime     String? // New: for time (e.g., "HH:MM")
   userId      Int
-  user        User    @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
 }
