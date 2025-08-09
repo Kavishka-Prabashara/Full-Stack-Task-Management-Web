@@ -8,7 +8,7 @@ export const register = async (req: Request, res: Response) => {
         res.status(201).json(user);
     } catch (err: unknown) {
         if (err instanceof Error) {
-            res.status(400).json({ message: err.message }); // << This is your error
+            res.status(400).json({ message: err.message });
         } else {
             res.status(400).json({ message: 'An unknown error occurred' });
         }
@@ -16,7 +16,7 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-    console.log("Login request body:", req.body); // ✅ Add this
+    
 
     try {
         const { email, password } = req.body;

@@ -2,7 +2,6 @@
 import dotenv from 'dotenv';
 import path from 'path';
 
-// Load .env file from root of backend
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 export const env = {
