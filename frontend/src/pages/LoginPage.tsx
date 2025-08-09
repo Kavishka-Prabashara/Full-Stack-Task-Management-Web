@@ -10,10 +10,26 @@ export default function LoginPage() {
     const dispatch = useAppDispatch();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [validationError, setValidationError] = useState('');
     const navigate = useNavigate();
     const { user, loading, error } = useSelector((state: RootState) => state.auth);
 
+    const validateInputs = () => {
+        if (!email || !password) {
+            setValidationError('Email and Password are required');
+            return false;
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setValidationError('Invalid email format');
+            return false;
+        }
+        setValidationError('');
+        return true;
+    };
+
     const handleLogin = () => {
+        if (!validateInputs()) return;
         dispatch(loginUser({ email, password }));
     };
 
@@ -40,6 +56,11 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
             />
+            {(validationError || error) && (
+                <p className="text-red-400 text-sm text-center mb-2">
+                    {validationError || error}
+                </p>
+            )}
             <button
                 onClick={handleLogin}
                 disabled={loading}
@@ -47,7 +68,6 @@ export default function LoginPage() {
             >
                 {loading ? 'Logging in...' : 'Login'}
             </button>
-            {error && <p className="text-red-400 text-sm text-center mb-2">{error}</p>}
             <p className="text-sm text-center">
                 Don't have an account?{' '}
                 <button className="underline" onClick={() => navigate('/signup')}>
